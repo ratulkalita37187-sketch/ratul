@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RK-STORE – ALL item delivered to your door</title>
+<meta name="description" content="RK-STORE, Dakua Para, Assam. Order groceries, dairy, snacks and beverages online. Home delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#1f7a4d;--green-d:#14583a;--leaf:#e6f4ec;--saffron:#f4a20f;--ink:#1d2a24;--mute:#68766f;--line:#dde7e1;--bg:#fbfaf5;--card:#fff}
+*{box-sizing:border-box;margin:0}
+body{font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:110px;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,.price{font-family:'Baloo 2',sans-serif}
+button{font:inherit;cursor:pointer;border:0}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+header{background:var(--green);color:#fff;padding:22px 16px 26px;text-align:center}
+header h1{font-size:2.3rem;font-weight:800;letter-spacing:.5px;line-height:1.1}
+header p{opacity:.92;margin-top:4px}
+.loc{display:inline-block;margin-top:10px;background:rgba(255,255,255,.15);padding:4px 12px;border-radius:99px;font-size:.85rem}
+.cats{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;gap:8px;overflow-x:auto;padding:12px 14px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;padding:8px 16px;border-radius:99px;background:#fff;border:1.5px solid var(--line);color:var(--ink);font-weight:700}
+.cat.on{background:var(--green);border-color:var(--green);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.imgbox{aspect-ratio:1;background:var(--leaf);display:grid;place-items:center;font-size:3rem}
+.imgbox img{width:100%;height:100%;object-fit:contain;background:#fff}
+.info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.info h3{font-size:1.02rem;line-height:1.2}
+.desc{font-size:.8rem;color:var(--mute);flex:1}
+.tag{font-size:.72rem;color:var(--green-d);font-weight:700}
+select{width:100%;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;font:inherit;font-size:.85rem;background:#fff;color:var(--ink)}
+.price{font-size:1.3rem;font-weight:800;color:var(--green-d)}
+.add{background:var(--saffron);color:#2b1c00;font-weight:800;padding:10px;border-radius:10px;transition:transform .15s}
+.add:active{transform:scale(.95)}
+.add.done{background:var(--green);color:#fff}
+.empty{text-align:center;color:var(--mute);padding:40px 10px;grid-column:1/-1}
+.fab{position:fixed;bottom:18px;z-index:30;border-radius:99px;box-shadow:0 6px 18px rgba(0,0,0,.25);display:flex;align-items:center;gap:8px;font-weight:800;color:#fff;padding:14px 18px;text-decoration:none}
+#cartBtn{right:16px;background:var(--green)}
+#waBtn{left:16px;background:#25d366}
+#count{background:var(--saffron);color:#2b1c00;min-width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-size:.8rem;padding:0 6px}
+.bump{animation:bump .35s}
+@keyframes bump{50%{transform:scale(1.18)}}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:none;align-items:flex-end;justify-content:center}
+.ov.show{display:flex}
+.sheet{background:#fff;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:18px;animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@media(min-width:600px){.ov{align-items:center}.sheet{border-radius:20px}}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sh h2{font-size:1.5rem}
+.x{background:var(--leaf);width:36px;height:36px;border-radius:50%;font-size:1.1rem}
+.row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.row .n{flex:1;min-width:0}
+.row b{display:block;line-height:1.2}
+.row small{color:var(--mute)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:30px;height:30px;border-radius:50%;background:var(--leaf);color:var(--green-d);font-weight:800;font-size:1.1rem}
+.sub{min-width:56px;text-align:right;font-weight:700}
+.rm{background:none;color:#c0392b;font-size:.78rem;text-decoration:underline;padding:2px;margin-top:2px}
+.total{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:800;padding:14px 0}
+.btn{width:100%;padding:14px;border-radius:12px;background:var(--green);color:#fff;font-weight:800;font-size:1.05rem;display:block;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.6}
+.btn.wa{background:#25d366}
+label{display:block;font-weight:700;font-size:.9rem;margin:10px 0 4px}
+input,textarea{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:10px;font:inherit}
+.note{font-size:.8rem;color:var(--mute);margin-top:8px;text-align:center}
+.err{color:#c0392b;font-size:.85rem;margin-top:8px}
+.ok{text-align:center;padding:10px 0}
+.ok .big{font-size:3.2rem}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding:20px 14px}
+footer a{color:var(--green-d)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>RK-STORE</h1>
+  <p>ALL item delivered to your door</p>
+  <span class="loc">📍 DAKUA PARA, Assam · 📞 6901671015</span>
+</header>
+
+<nav class="cats" id="cats" aria-label="Product categories"></nav>
+<main><div class="grid" id="grid"></div></main>
+
+<footer>
+  RK-STORE · DAKUA PARA, Assam<br>
+  <a href="tel:6901671015">6901671015</a> · <a href="mailto:villan15500@gmail.com">villan15500@gmail.com</a><br>
+  Prices are confirmed by the shop when it contacts you.
+</footer>
+
+<a class="fab" id="waBtn" href="https://wa.me/916901671015?text=Hello%20RK-STORE" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬 <span>WhatsApp</span></a>
+<button class="fab" id="cartBtn" aria-label="Open cart">🛒 <span>Cart</span><span id="count">0</span></button>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Your cart">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+// ===== EDIT YOUR SETTINGS HERE =====
+const SHOP = {name:"RK-STORE", phone:"916901671015", form:"https://formspree.io/f/875692"};
+const CATEGORIES = ["Groceries","Dairy","Snacks","Beverages"];
+// opts = price choices. Add more products by copying a line.
+const PRODUCTS = [
+ {id:1,name:"Aashirvaad Atta (1kg)",cat:"Groceries",img:"https://i.ibb.co/XxHhYPvk/atta.jpg",desc:"Premium whole wheat flour",opts:[{l:"1 kg",p:60}]},
+ {id:2,name:"Vim",cat:"Groceries",img:"https://i.ibb.co/WWHd4ykM/vim.jpg",desc:"Dishwash for sparkling clean utensils",opts:[{l:"Standard",p:5}]},
+ {id:3,name:"Sting",cat:"Beverages",img:"https://i.ibb.co/wh1kYhGm/Sting.jpg",desc:"Cold energy drink",opts:[{l:"Bottle",p:20}]},
+ {id:4,name:"Marie Light",cat:"Snacks",img:"https://i.ibb.co/MxyXBFS8/Marie.jpg",desc:"Light and crispy tea biscuits",opts:[{l:"Small pack",p:10},{l:"Large pack",p:30}]},
+ {id:5,name:"Colgate",cat:"Groceries",img:"https://i.ibb.co/m7Yx9Ns/colgate.jpg",desc:"Toothpaste for strong teeth",opts:[{l:"Small",p:10},{l:"Large",p:20}]}
+];
+// ===================================
+
+const $ = s => document.querySelector(s);
+const money = n => "₹" + n;
+const ICON = {Groceries:"🛒",Dairy:"🥛",Snacks:"🍪",Beverages:"🥤"};
+let cart = [], cat = "All";
+try { cart = JSON.parse(localStorage.getItem("rk_cart")) || []; } catch(e){}
+const save = () => { try{localStorage.setItem("rk_cart",JSON.stringify(cart))}catch(e){} };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function drawCats(){
+  $("#cats").innerHTML = ["All",...CATEGORIES].map(c=>`<button class="cat ${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+}
+function drawGrid(){
+  const list = PRODUCTS.filter(p=>cat==="All"||p.cat===cat);
+  $("#grid").innerHTML = list.length ? list.map(p=>`
+   <article class="card">
+    <div class="imgbox"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" onerror="this.parentNode.textContent='${ICON[p.cat]||"🛍️"}'"></div>
+    <div class="info">
+      <span class="tag">${p.cat}</span>
+      <h3>${esc(p.name)}</h3>
+      <p class="desc">${esc(p.desc)}</p>
+      ${p.opts.length>1?`<select id="o${p.id}" aria-label="Choose size for ${esc(p.name)}">${p.opts.map((o,i)=>`<option value="${i}">${o.l} – ${money(o.p)}</option>`).join("")}</select>`:`<div class="price">${money(p.opts[0].p)}</div>`}
+      <button class="add" data-id="${p.id}">Add to Cart</button>
+    </div>
+   </article>`).join("") : `<p class="empty">No items in ${cat} yet. Call or WhatsApp us to ask!</p>`;
+}
+function updateCount(){
+  const n = cart.reduce((a,i)=>a+i.q,0);
+  const c = $("#count"); c.textContent = n;
+  c.parentNode.classList.remove("bump"); void c.offsetWidth; c.parentNode.classList.add("bump");
+}
+function addToCart(id,btn){
+  const p = PRODUCTS.find(x=>x.id==id);
+  const sel = $("#o"+id), oi = sel ? +sel.value : 0, o = p.opts[oi];
+  const key = id+"-"+oi;
+  const ex = cart.find(i=>i.key===key);
+  if(ex) ex.q++; else cart.push({key,name:p.name+(p.opts.length>1?" ("+o.l+")":""),price:o.p,q:1});
+  save(); updateCount();
+  btn.textContent="✓ Added"; btn.classList.add("done");
+  setTimeout(()=>{btn.textContent="Add to Cart";btn.classList.remove("done")},900);
+}
+const total = () => cart.reduce((a,i)=>a+i.price*i.q,0);
+
+function openSheet(){ $("#ov").classList.add("show"); }
+function closeSheet(){ $("#ov").classList.remove("show"); }
+function head(t){ return `<div class="sh"><h2>${t}</h2><button class="x" data-act="close" aria-label="Close">✕</button></div>`; }
+
+function viewCart(){
+  openSheet();
+  if(!cart.length){ $("#sheet").innerHTML = head("Your cart")+`<p class="empty">Your cart is empty. Add something tasty!</p>`; return; }
+  $("#sheet").innerHTML = head("Your cart") + cart.map((i,idx)=>`
+   <div class="row">
+     <div class="n"><b>${esc(i.name)}</b><small>${money(i.price)} each</small><br><button class="rm" data-rm="${idx}">Remove</button></div>
+     <div class="qty"><button data-m="${idx}" aria-label="Decrease">−</button><b>${i.q}</b><button data-p="${idx}" aria-label="Increase">+</button></div>
+     <div class="sub">${money(i.price*i.q)}</div>
+   </div>`).join("") +
+   `<div class="total"><span>Grand total</span><span>${money(total())}</span></div>
+    <button class="btn" data-act="checkout">Place Order</button>
+    <p class="note">Pay on delivery. The shop will call to confirm.</p>`;
+}
+function viewCheckout(){
+  $("#sheet").innerHTML = head("Delivery details") + `
+  <form id="f">
+    <label for="cn">Your name *</label><input id="cn" required autocomplete="name">
+    <label for="cp">Phone number *</label><input id="cp" type="tel" required pattern="[0-9+ ]{10,15}" inputmode="tel" autocomplete="tel" placeholder="10-digit mobile number">
+    <label for="ca">Delivery address *</label><textarea id="ca" rows="3" required autocomplete="street-address"></textarea>
+    <label for="ci">Special instructions (optional)</label><textarea id="ci" rows="2"></textarea>
+    <div class="total"><span>Total (${cart.reduce((a,i)=>a+i.q,0)} items)</span><span>${money(total())}</span></div>
+    <button class="btn" id="sb" type="submit">Send Order</button>
+    <button type="button" class="rm" data-act="cart" style="display:block;margin:10px auto">← Back to cart</button>
+    <div class="err" id="er"></div>
+  </form>`;
+  $("#f").addEventListener("submit", submitOrder);
+}
+function summary(){
+  return cart.map((i,n)=>`${n+1}. ${i.name} - Qty ${i.q} x ${money(i.price)} = ${money(i.price*i.q)}`).join("\n");
+}
+async function submitOrder(e){
+  e.preventDefault();
+  const name=$("#cn").value.trim(), phone=$("#cp").value.trim(), addr=$("#ca").value.trim(), ins=$("#ci").value.trim();
+  const sb=$("#sb"); sb.disabled=true; sb.textContent="Sending…"; $("#er").textContent="";
+  const orderText = `NEW ORDER - ${SHOP.name}\n\nITEMS:\n${summary()}\n\nGRAND TOTAL: ${money(total())}\n\nCUSTOMER:\nName: ${name}\nPhone: ${phone}\nAddress: ${addr}\nInstructions: ${ins||"None"}`;
+  const data = {
+    _subject:`New order from ${name} - ${money(total())}`,
+    name, phone, address:addr, instructions:ins||"None",
+    order_items:summary(), grand_total:money(total()),
+    message:orderText
+  };
+  try{
+    const r = await fetch(SHOP.form,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify(data)});
+    if(!r.ok) throw new Error();
+    const wa = `https://wa.me/${SHOP.phone}?text=${encodeURIComponent(orderText)}`;
+    cart=[]; save(); updateCount();
+    $("#sheet").innerHTML = head("Thank you!")+`
+     <div class="ok"><div class="big">✅</div>
+     <h3>Order placed!</h3>
+     <p style="margin:8px 0 16px">${SHOP.name} will contact you on WhatsApp to confirm.</p>
+     <a class="btn wa" href="${wa}" target="_blank" rel="noopener">💬 Message us on WhatsApp</a>
+     <button class="btn" style="margin-top:10px;background:var(--leaf);color:var(--green-d)" data-act="close">Continue shopping</button></div>`;
+  }catch(err){
+    sb.disabled=false; sb.textContent="Send Order";
+    $("#er").textContent="Could not send the order. Check your internet and try again, or order on WhatsApp / call 6901671015.";
+  }
+}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,a"); if(!t) return;
+  if(t.dataset.c){cat=t.dataset.c;drawCats();drawGrid();}
+  else if(t.classList.contains("add")) addToCart(t.dataset.id,t);
+  else if(t.id==="cartBtn") viewCart();
+  else if(t.dataset.act==="close") closeSheet();
+  else if(t.dataset.act==="checkout") viewCheckout();
+  else if(t.dataset.act==="cart") viewCart();
+  else if(t.dataset.p!==undefined){cart[t.dataset.p].q++;save();updateCount();viewCart();}
+  else if(t.dataset.m!==undefined){const i=cart[t.dataset.m];i.q--;if(i.q<1)cart.splice(t.dataset.m,1);save();updateCount();viewCart();}
+  else if(t.dataset.rm!==undefined){cart.splice(t.dataset.rm,1);save();updateCount();viewCart();}
+});
+$("#ov").addEventListener("click",e=>{if(e.target.id==="ov")closeSheet();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet();});
+
+drawCats(); drawGrid(); updateCount();
+</script>
+</body>
+</html>
